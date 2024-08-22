@@ -1,0 +1,393 @@
+{
+    "openapi":"3.0.3",
+    "info": {
+      "title":"API Title",
+      "version":"1.0"
+    },
+    "servers": [
+      {"url":"https://api.server.test/v1"}
+    ],
+    "paths": {
+      "/api/contacts/{contactId}/addresses" : {
+         
+         "post" : {
+            "summary": "create addresses api",
+            "parameters": [
+            {
+               "name": "Authorization",
+               "in": "header",
+               "required": true,
+               "schema": {
+                  "$ref": "#/components/schemas/AuthorizationComponent"
+               }
+            }
+         ],
+          "requestBody": {
+            "content": {
+               "application/json" : {
+                  "schema": {
+                     "$ref": "#/components/schemas/requestBodyComponent"
+                  }
+               }
+            }
+          },
+          "responses": {
+            "200": {
+               "description": "success create addresses",
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/responsesComponent"
+                     }
+                  }
+               }
+            },
+            "400": {
+               "description": "failed create address",
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "type": "object",
+                        "properties": {
+                           "errors": {
+                              "type": "string",
+                              "example": "Country is required"
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+          }
+         }
+      },
+      "/api/contacts/{contactId}/addresses/{addressId}": {
+            "get": {
+            "summary": "get address api",
+            "parameters": [
+               {
+                  "name": "contactId",
+                  "in": "query",
+                  "required": false,
+                  "schema": {
+                     "type": "object",
+                     "properties": {
+                        "contactId": {
+                           "type": "string",
+                           "example": "contact-1"
+                        }
+                     }
+                  }
+               },
+               {
+                  "name": "addressId",
+                  "in": "query",
+                  "required": false,
+                  "schema": {
+                     "type": "object",
+                     "properties": {
+                        "addressId": {
+                           "type": "string",
+                           "example": "address-12"
+                        }
+                     }
+                  }
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "success get data contact",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/responsesComponent"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "failed get data contact",
+                  "content": {
+                     "application/json" : {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "errors": {
+                                 "type": "string",
+                                 "example": "contact is not found"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "put": {
+            "summary": "update addresses",
+            "parameters": [
+               {
+                  "name": "Authorization",
+                  "in": "header",
+                  "required": true,
+                  "schema": {
+                     "$ref": "#/components/schemas/AuthorizationComponent"
+                  }
+               }
+            ],
+            "requestBody": {
+               "description": "send request body",
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/requestBodyComponent"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "success update addresses",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/responsesComponent"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "failed update addresses",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "errors": {
+                                 "type": "string",
+                                 "example": "email must string"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "delete": {
+            "summary": "delete addresses api",
+            "parameters": [
+               {
+                  "name": "contactId",
+                  "in": "query",
+                  "required": false,
+                  "schema": {
+                     "type": "string",
+                     "example": "contact-12"
+                  }
+               },
+               {
+                  "name": "addressesId",
+                  "in": "query",
+                  "required": false,
+                  "schema": {
+                     "type": "string",
+                     "example": "addresses-10"
+                  }
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "success delete",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "data" : {
+                                 "type": "string",
+                                 "example": "OK"
+                              }
+                           }
+                           
+                        }
+                     }
+                  }
+               },
+               "400" : {
+                  "description": "failed delete",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "errors": {
+                                 "type": "string",
+                                 "example": "address not found"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+
+      },
+      "/api/contact/{contactId}/addresses": {
+        "get": {
+          "summary": "list addresses api",
+         "parameters": [
+            {
+               "name": "contactId",
+               "in": "query",
+               "required": false,
+               "schema": {
+                  "type": "object",
+                  "properties": {
+                     "contactId": {
+                        "type": "string",
+                        "example": "contact-12"
+                     }
+                  }
+               }
+            }
+         ],
+         "responses": {
+            "200": {
+               "description": "success get list addresses",
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "type": "object",
+                        "properties": {
+                           "data": {
+                              "type": "array",
+                              "items": {
+                                 "type": "object",
+                                 "properties": {
+                                    "id" : {
+                                       "type": "number",
+                                       "example": 1
+                                    },
+                                    "street" : {
+                                       "type": "string",
+                                       "example": "jln. apt pranoto"
+                                    },
+                                    "city": {
+                                       "type": "string",
+                                       "example": "Samarinda"
+                                    },
+                                    "province": {
+                                       "type": "string",
+                                       "example": "Kalimantan timur"
+                                    },
+                                    "country": {
+                                       "type": "string",
+                                       "example": "Indonesia"
+                                    },
+                                    "postal_code" : {
+                                       "type": "string",
+                                       "example": "3231342"
+                                    }
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "400": {
+               "description": "failed get list addresses",
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "type": "object",
+                        "properties": {
+                           "errors" : {
+                              "type": "string",
+                              "example": "contact is not found"
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+         "AuthorizationComponent": {
+            "type": "object",
+            "properties": {
+               "Authorization": {
+                  "type": "string",
+                  "example": "token"
+               }
+            }
+         },
+         "requestBodyComponent": {
+            "type": "object",
+            "properties": {
+               "street": {
+                  "type": "string",
+                  "example": "apt pranoto"
+               },
+               "city": {
+                  "type": "string",
+                  "example": "samarinda"
+               },
+               "province": {
+                  "type": "string",
+                  "example": "Kalimantan timur"
+               },
+               "country": {
+                  "type": "string",
+                  "example": "Indonesia"
+               },
+               "postal_code": {
+                  "type": "string",
+                  "example": "33212"
+               }
+            }
+         },
+         "responsesComponent": {
+            "type": "object",
+            "properties": {
+               "data": {
+                   "type": "object",
+                  "properties": {
+                     "id": {
+                        "type": "integer",
+                        "example": "1"
+                     },
+                     "street": {
+                        "type": "string",
+                        "example": "apt pranoto"
+                     },
+                     "city": {
+                        "type": "string",
+                        "example": "samarinda"
+                     },
+                     "province": {
+                        "type": "string",
+                        "example": "Kalimantan timur"
+                     },
+                     "country": {
+                        "type": "string",
+                        "example": "Indonesia"
+                     },
+                     "postal_code": {
+                        "type": "string",
+                        "example": "33212"
+                     }
+                  }
+               }
+            }
+         }
+      }
+    }
+  }

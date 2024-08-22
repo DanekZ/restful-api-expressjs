@@ -1,0 +1,292 @@
+{
+  "openapi": "3.0.0",
+   "info": {
+      "title": "Users Api Spec",
+      "version": "1.0.0"
+   },
+   "paths": {
+      "/api/users/": {
+         "post": {
+            "summary": "Register",
+            "requestBody": {
+               "content": {
+                  "application/json":{
+                     "schema": {
+                        "type": "object",
+                        "properties": {
+                           "username": {
+                              "type": "string"
+                           },
+                           "password" :{
+                              "type": "string"
+                           },
+                           "name" : {
+                              "type": "string"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "success",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/responsesUsers"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "user already registered",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "errors" : {
+                                 "type": "string",
+                                 "example": "username already registered"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/users/{current}":{
+         "patch": {
+            "summary": "update user api",
+            "requestBody": {
+               "content": {
+                  "application/json":{
+                     "schema": {
+                        "type": "object",
+                        "properties": {
+                           "name": {
+                              "type": "string"
+                           },
+                           "password": {
+                              "type": "string"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "success update user",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/responsesUsers"
+                        }
+                     }
+                  }
+               }, 
+               "400" : {
+                  "description": "failed update user",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "errors": {
+                                 "type": "string",
+                                 "example": "Name Length max 100"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         },
+         "get": {
+            "summary": "get data user",
+            "parameters": [
+               {
+                  "name": "Authorization",
+                  "in": "header",
+                  "required": true,
+                  "schema": {
+                     "$ref": "#/components/schemas/Authorization"
+                  }
+               }
+            ],
+            "responses": {
+               "200" : {
+                  "description": "success get data user",
+                  "content": {
+                     "application/json":{
+                        "schema": {
+                           "$ref": "#/components/schemas/responsesUsers"
+                        }
+                     }
+                  }
+               }, 
+               "400" : {
+                  "description": "fail get data user",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "errors": {
+                                 "type": "string",
+                                 "example": "unauthorized"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/users/login": {
+         "post": {
+            "summary": "login user",
+            "requestBody":{
+               "content": {
+                  "application/json": {
+                     "schema":{
+                        "type": "object",
+                        "properties": {
+                           "username":{
+                              "type": "string",
+                              "example": "danezdn"
+                           },
+                           "password" : {
+                              "type": "string",
+                              "example": "#admin1234"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "success login",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "token": {
+                                 "type": "string",
+                                 "example": "unique-token"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "400" :{
+                  "description": "failed login",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "errors": {
+                                 "type": "string",
+                                 "example": "username or password wrong"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/users/logout": {
+         "summary": "logout users",
+         "parameters": [
+            {
+               "name": "Authorization",
+               "in": "header",
+               "required": true,
+               "schema": {
+                  "$ref": "#/components/schemas/Authorization"
+               }
+            }
+         ],
+         "delete": {
+            "summary": "logout user",
+            "responses": {
+               "200": {
+                  "description": "success logout",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "data": {
+                                 "type": "string",
+                                 "example": "ok"
+                              }
+                           }
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "fail logout",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type": "object",
+                           "properties": {
+                              "error" : {
+                                 "type": "string",
+                                 "example": "unauthorized"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   },
+   "components": {
+      "schemas": {
+         "responsesUsers": {
+            "type": "object",
+            "properties": {
+               "data": {
+                  "type": "object",
+                  "properties": {
+                     "username" : {
+                        "type": "string",
+                        "example": "danezdn"
+                     },
+                     "name" : {
+                        "type": "string",
+                        "example" : "zidane abbas"
+                     }
+                  }
+               }
+            }
+         },
+         "Authorization": {
+            "type": "object",
+            "properties": {
+               "Authorization": {
+                  "type": "string",
+                  "example": "token"
+               }
+            }
+         }
+      }
+   }
+}
